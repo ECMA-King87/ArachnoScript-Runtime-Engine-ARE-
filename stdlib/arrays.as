@@ -1,3 +1,5 @@
+#_set_context(globalThis)
+
 class Uint8Array {
   private default buffer;
   constructor(value) {
