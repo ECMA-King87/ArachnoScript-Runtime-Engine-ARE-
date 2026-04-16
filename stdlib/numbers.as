@@ -1,3 +1,5 @@
+#_set_context(globalThis)
+
 function Number(value) {
   if (typeof value == "string") {
     return #_parse_number(value)

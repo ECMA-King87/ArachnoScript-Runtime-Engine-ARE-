@@ -1,3 +1,4 @@
+#_set_context(globalThis)
 
 class Promise {
   private default promise;

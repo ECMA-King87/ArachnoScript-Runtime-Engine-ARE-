@@ -1,3 +1,5 @@
+#_set_context(globalThis)
+
 static spawn Console = {
   log(...args) {
     var str = "";

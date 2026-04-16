@@ -1,3 +1,5 @@
+#_set_context(globalThis)
+
 function Symbol(des) {
   if (typeof des != "string") {
     throw "Symbol: argument must be a string";

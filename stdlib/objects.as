@@ -1,3 +1,5 @@
+#_set_context(globalThis)
+
 class Object {}
 
 Object.isValidObject = function (value) {

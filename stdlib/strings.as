@@ -1,3 +1,5 @@
+#_set_context(globalThis)
+
 function String(value) {
   return new (class {
     private default str = "";
