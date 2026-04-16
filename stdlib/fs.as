@@ -1,3 +1,4 @@
+#_set_context(globalThis)
 
 $ returns *RawVal[[]byte] (raw [byte array])
 function write_file(path, data) {
