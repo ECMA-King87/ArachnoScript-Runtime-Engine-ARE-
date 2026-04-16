@@ -1,5 +1,5 @@
-static spawn runtime = new (class {
-  public get args() {
-    return new Array(...#_os_args())
-  }
-});
+#_set_context(globalThis)
+
+static spawn runtime = {
+  args: #_os_args()
+};
