@@ -1,13 +1,16 @@
-ArachnoScript v0.2.0 Change log
 
-# Lexer
+# ArachnoScript Runtime Environment Change log
+
+## ArachnoScript v0.2.0 Change log
+
+### Lexer
 - updated lexer logic (moved from using regular expressions).
 
-# Parser
+### Parser
 - updated parser logic (using precedence helpers).
 - optimized parser (nodes, logic)
 
-# Runtime
+### Runtime
 - improved interpreter logic
 - improved errors (Parse errors and runtime errors).
 - improved array & object destructuring features.
