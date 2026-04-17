@@ -20,4 +20,30 @@ if (#_length(runtime.args) > 0) {
   $ the 2nd argument is a flag that states whether to run in separate thread (true)
   $ or block current thread (false)
   #_worker(path, false)
+} else {
+  Console.log("ArachnoScript Runtime Environment (ARE) \x1b[32mv0.2.0\x1b[0m");
+  Console.log("          _____                    _____          ");
+  Console.log("         /\\    \\                  /\\    \\         ");
+  Console.log("        /::\\    \\                /::\\    \\        ");
+  Console.log("       /::::\\    \\              /::::\\    \\       ");
+  Console.log("      /::::::\\    \\            /::::::\\    \\      ");
+  Console.log("     /:::/\\:::\\    \\          /:::/\\:::\\    \\     ");
+  Console.log("    /:::/__\\:::\\    \\        /:::/__\\:::\\    \\    ");
+  Console.log("   /::::\\   \\:::\\    \\       \\:::\\   \\:::\\    \\   ");
+  Console.log("  /::::::\\   \\:::\\    \\    ___\\:::\\   \\:::\\    \\  ");
+  Console.log(" /:::/\\:::\\   \\:::\\    \\  /\\   \\:::\\   \\:::\\    \\ ");
+  Console.log("/:::/  \\:::\\   \\:::\\____\\/::\\   \\:::\\   \\:::\\____\\");
+  Console.log("\\::/    \\:::\\  /:::/    /\\:::\\   \\:::\\   \\::/    /");
+  Console.log(" \\/____/ \\:::\\/:::/    /  \\:::\\   \\:::\\   \\/____/ ");
+  Console.log("          \\::::::/    /    \\:::\\   \\:::\\    \\     ");
+  Console.log("           \\::::/    /      \\:::\\   \\:::\\____\\    ");
+  Console.log("           /:::/    /        \\:::\\  /:::/    /    ");
+  Console.log("          /:::/    /          \\:::\\/:::/    /     ");
+  Console.log("         /:::/    /            \\::::::/    /      ");
+  Console.log("        /:::/    /              \\::::/    /       ");
+  Console.log("        \\::/    /                \\::/    /        ");
+  Console.log("         \\/____/                  \\/____/         ");
+  Console.log("                                                  ");
+
+  input()
 }

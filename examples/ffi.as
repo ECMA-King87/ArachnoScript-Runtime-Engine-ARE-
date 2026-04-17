@@ -18,3 +18,5 @@ Console.log("strlen (strdup+ptr):\t", len2);
 #_c_free(s);
 
 #_free_shared_lib(lib)
+
+input()
