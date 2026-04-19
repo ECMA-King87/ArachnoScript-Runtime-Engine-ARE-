@@ -40,8 +40,6 @@ These are the macros built in-to to the ArachnoScript runtime.
 - [#_write_byte_array](#write-byte-array)
 - [#_push_byte](#push-byte)
 - [#_byte_at](#byte-at)
-- [#_byte_to_string](#byte-to-string)
-- [#_byte_array_to_string](#byte-array-to-string)
 - [#_is_byte_array](#is-byte-array)
 - [#_is_byte](#is-byte)
 - [#_slice_array](#slice-array)
@@ -251,20 +249,6 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Returns: `raw [byte]`
 - Description: Return the byte at `index`. Negative indices count from the end; errors on out-of-range access.
 
-<a id="byte-to-string"></a>
-### `#_byte_to_string`
-- Signature: `#_byte_to_string(byte)`
-- Arguments: `raw [byte]`
-- Returns: `string`
-- Description: Convert a single raw byte into a one-character string.
-
-<a id="byte-array-to-string"></a>
-### `#_byte_array_to_string`
-- Signature: `#_byte_array_to_string(bytes)`
-- Arguments: `raw [byte array]`
-- Returns: `string`
-- Description: Convert a raw byte array into a string by interpreting its bytes.
-
 <a id="is-byte-array"></a>
 ### `#_is_byte_array`
 - Signature: `#_is_byte_array(value)`
@@ -387,4 +371,5 @@ These are the macros built in-to to the ArachnoScript runtime.
 ---
 
 If you want the canonical ordering, descriptions, or examples changed, tell me which macros you'd like examples for and I can add short usage snippets.
+
 
