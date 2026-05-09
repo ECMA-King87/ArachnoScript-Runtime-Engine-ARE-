@@ -39,7 +39,7 @@ if (argsLength > 1) {
     }
   }
 } else {
-  Console.log("ArachnoScript Runtime Environment (ARE) \x1b[32mv0.2.0\x1b[0m");
+  Console.log("ArachnoScript Runtime Environment (ARE) \x1b[32mv0.2.1\x1b[0m");
   Console.log("          _____                    _____          ");
   Console.log("         /\\    \\                  /\\    \\         ");
   Console.log("        /::\\    \\                /::\\    \\        ");
