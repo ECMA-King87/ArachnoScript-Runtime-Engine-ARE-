@@ -1,16 +1,57 @@
 
-# ArachnoScript Runtime Environment Change log
+# ArachnoScript v0.2.1 Change log
 
-## ArachnoScript v0.2.0 Change log
+## Lexer
+- optimized lexer.
+- fixed lexer bugs in string lexing.
 
-### Lexer
+## Parser
+- updated constructor logic to match runtime behavior.
+- updated object literal parsing.
+- updated if statement parsing.
+- fixed many parser bugs.
+- optimized class property parsing logic
+- updated increment/decrement nodes
+
+## Runtime
+- enabled variable declaration in if statement condition.
+- fixed bug in `#_new_byte_array` macro.
+- updated `#_serve_mux_handle_func` macro.
+- updated `#_new_byte_array` macro.
+- fixed `#_path_relative` macro.
+- removed `#_http_listen_and_serve` macro.
+- added `#_http_listen` macro
+- added `#_http_serve` macro
+- added `#_path_relative` macro
+- added `#_real_path` macro
+- added `#_path_relative_to_file` macro
+- updated 'strings', 'arrays', 'promise', 'io', 'fs', 'math', and 'main' standard library modules.
+- added 'http', and 'regexp' standard library modules.
+- added documentations to 'arrays' standard library module.
+- updated documentations to 'io' standard library module.
+- updated scope objects feature.
+- updated object data type property descriptor.
+- updated class property initializer logic
+- updated scope logic
+- updated map lookups
+- updated import statement logic
+- updated for in/of loop
+- updated object data type logic
+- fixed await logic/bug
+- updated `#_worker` macro.
+- updated macro data type error architecture.
+
+
+# ArachnoScript v0.2.0 Change log
+
+## Lexer
 - updated lexer logic (moved from using regular expressions).
 
-### Parser
+## Parser
 - updated parser logic (using precedence helpers).
 - optimized parser (nodes, logic)
 
-### Runtime
+## Runtime
 - improved interpreter logic
 - improved errors (Parse errors and runtime errors).
 - improved array & object destructuring features.
