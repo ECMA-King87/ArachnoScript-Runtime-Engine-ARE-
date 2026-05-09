@@ -2,13 +2,17 @@
 var server = new Http.Server();
 
 server.handle("/", (w, r) => {
-  Console.log("new request!", w, r);
+  Console.log(r.method, r.url);
   w.write(new Uint8Array("Hello World!"))
 });
 
-immortal spawn port = 4567;
-
 @coroutine
-server.listenAndServe(port);
-
-Console.log("Hello World!, listening on http://localhost:"+port)
+server.listenAndServe({
+  hostname: "localhost",
+  $ automatically choos the port number
+  port: 0,
+  $ the port could not be exposed for the tcp listener
+  onListen(localAddr) {
+    Console.log("Hello World!, listening on", localAddr.transport, "http://"+localAddr.hostname)
+  }
+});
