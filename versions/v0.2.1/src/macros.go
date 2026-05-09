@@ -30,7 +30,7 @@ func DeclareMacros(r *Interpreter) {
 		}),
 		MK_MACRO("#_os_args", func(r *Interpreter, _ RuntimeArgs, _ *Scope, _ Loc, _ *Macro) RuntimeVal {
 			args := MK_ARRAY()
-			for _, arg := range os.Args {
+			for _, arg := range os.Args[1:] {
 				args.push(StringVal(arg))
 			}
 			return args
