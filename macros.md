@@ -2,14 +2,12 @@
 
 Comprehensive reference for built-in macros in the ArachnoScript runtime (v0.2).
 
-These are the macros built in-to to the ArachnoScript runtime.
+These are the macros built into the ArachnoScript runtime as declared in `src/macros.go`.
 
 ## Overview
 
 - Each macro entry includes: Signature, Arguments, Returns and a concise Description.
-- FFI-related macros are experimental; read their descriptions carefully before use.
-
----
+- FFI-related macros are experimental; review their descriptions before use.
 
 ## Table of contents
 
@@ -18,6 +16,12 @@ These are the macros built in-to to the ArachnoScript runtime.
 - [#_to_string](#to-string)
 - [#_value](#value)
 - [#_to_number](#to-number)
+- [#_to_uppercase](#to-uppercase)
+- [#_new_regexp](#new-regexp)
+- [#_regexp_escape](#regexp-escape)
+- [#_regexp_test](#regexp-test)
+- [#_regexp_replace](#regexp-replace)
+- [#_to_lowercase](#to-lowercase)
 - [#_value_is_infinity](#value-is-infinity)
 - [#_parse_number](#parse-number)
 - [#_parse_float](#parse-float)
@@ -48,7 +52,17 @@ These are the macros built in-to to the ArachnoScript runtime.
 - [#_file_stats](#file-stats)
 - [#_file_size](#file-size)
 - [#_path_relative](#path-relative)
+- [#_path_relative_to_file](#path-relative-to-file)
+- [#_real_path](#real-path)
 - [#_file_close](#file-close)
+- [#_http_handle](#http-handle)
+- [#_new_http_serve_mux](#new-http-serve-mux)
+- [#_http_handle_func](#http-handle-func)
+- [#_serve_mux_handle_func](#serve-mux-handle-func)
+- [#_serve_mux_handle](#serve-mux-handle)
+- [#_http_listen](#http-listen)
+- [#_http_serve](#http-serve)
+- [#_is_valid_response_writer](#is-valid-response-writer)
 - [#_length](#length)
 - [#_new_error](#new-error)
 - [#_define_property](#define-property)
@@ -57,6 +71,22 @@ These are the macros built in-to to the ArachnoScript runtime.
 - [#_inspect](#inspect)
 - [#_worker](#worker)
 - [#_set_context](#set-context)
+- [#_sqrt](#sqrt)
+- [#_sine](#sine)
+- [#_cosine](#cosine)
+- [#_tangent](#tangent)
+- [#_arcsine](#arcsine)
+- [#_arccosine](#arccosine)
+- [#_arctangent](#arctangent)
+- [#_log](#log)
+- [#_absolute](#absolute)
+- [#_arctangent2](#arctangent2)
+- [#_ceil](#ceil)
+- [#_floor](#floor)
+- [#_round](#round)
+- [#_random](#random)
+- [#_max](#max)
+- [#_min](#min)
 
 ---
 
@@ -79,14 +109,14 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Signature: `#_to_string(value)`
 - Arguments: `any`
 - Returns: `string`
-- Description: Convert a runtime value to its string representation. If the value is a raw byte array it is converted to a string by interpreting the bytes directly.
+- Description: Convert a runtime value to its string representation. Raw byte arrays and raw bytes are converted to strings by interpreting their bytes.
 
 <a id="value"></a>
 ### `#_value`
 - Signature: `#_value(value)`
 - Arguments: `any`
 - Returns: `any`
-- Description: If given an `Instance`, attempts to resolve a default property value from its prototype and return that; otherwise returns the argument unchanged.
+- Description: If given an object-like value, searches its own properties and prototype chain for a Default property and returns that value; otherwise returns the argument unchanged.
 
 <a id="to-number"></a>
 ### `#_to_number`
@@ -94,6 +124,48 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Arguments: `any`
 - Returns: `number | NaN`
 - Description: Convert a value to a number. Supports `NumberVal` and raw `byte` values; returns `NaN` for unsupported types.
+
+<a id="to-uppercase"></a>
+### `#_to_uppercase`
+- Signature: `#_to_uppercase(str)`
+- Arguments: `string`
+- Returns: `string`
+- Description: Return the uppercase form of the provided string (falls back to the value's string representation if not a string).
+
+<a id="new-regexp"></a>
+### `#_new_regexp`
+- Signature: `#_new_regexp(pattern)`
+- Arguments: `string`
+- Returns: `array [raw [regexp], null|string]` (regexp handle and optional error string)
+- Description: Compile a regular expression pattern; returns `[regexp, null]` on success or `[regexp, errorMessage]` on failure.
+
+<a id="regexp-escape"></a>
+### `#_regexp_escape`
+- Signature: `#_regexp_escape(str)`
+- Arguments: `string`
+- Returns: `string`
+- Description: Escape regexp metacharacters in `str` (wrapper around `regexp.QuoteMeta`).
+
+<a id="regexp-test"></a>
+### `#_regexp_test`
+- Signature: `#_regexp_test(re, str)`
+- Arguments: `raw [regexp], string`
+- Returns: `boolean`
+- Description: Test whether `str` matches the compiled `regexp`.
+
+<a id="regexp-replace"></a>
+### `#_regexp_replace`
+- Signature: `#_regexp_replace(str, re, replacement)`
+- Arguments: `string, raw [regexp], string`
+- Returns: `string`
+- Description: Replace matches of `re` in `str` with `replacement`.
+
+<a id="to-lowercase"></a>
+### `#_to_lowercase`
+- Signature: `#_to_lowercase(str)`
+- Arguments: `string`
+- Returns: `string`
+- Description: Return the lowercase form of the provided string (falls back to the value's string representation if not a string).
 
 <a id="value-is-infinity"></a>
 ### `#_value_is_infinity`
@@ -156,7 +228,7 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Signature: `#_os_write_file(path, bytes, mode)`
 - Arguments: `string, raw [byte array], number` (file mode)
 - Returns: `null | throws`
-- Description: Write bytes to the filesystem at `path` (resolved relative to the current scope). `mode` is interpreted as an unsigned int file mode; errors raise a FileWriteError.
+- Description: Write bytes to the filesystem at `path` (resolved relative to the provided base); `mode` is interpreted as an unsigned int file mode; errors raise a FileWriteError.
 
 <a id="load-shared-lib"></a>
 ### `#_load_shared_lib`
@@ -275,7 +347,7 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Signature: `#_open_file(path)`
 - Arguments: `string`
 - Returns: `raw [os file]`
-- Description: Open a file at the given path (resolved to an absolute path) and return an `os.File` handle.
+- Description: Open a file at the given path and return an `os.File` handle.
 
 <a id="path-exists"></a>
 ### `#_path_exists`
@@ -300,10 +372,24 @@ These are the macros built in-to to the ArachnoScript runtime.
 
 <a id="path-relative"></a>
 ### `#_path_relative`
-- Signature: `#_path_relative(path)`
+- Signature: `#_path_relative(base, target)`
+- Arguments: `string base, string target`
+- Returns: `string`
+- Description: Compute a relative path from `base` to `target`.
+
+<a id="path-relative-to-file"></a>
+### `#_path_relative_to_file`
+- Signature: `#_path_relative_to_file(file, target)`
+- Arguments: `string file, string target`
+- Returns: `string`
+- Description: Resolve `target` relative to `file` and return the relative path.
+
+<a id="real-path"></a>
+### `#_real_path`
+- Signature: `#_real_path(path)`
 - Arguments: `string`
 - Returns: `string`
-- Description: Resolve a path relative to the current scope and return the real (absolute) path.
+- Description: Return the real (resolved/absolute) filesystem path for `path`.
 
 <a id="file-close"></a>
 ### `#_file_close`
@@ -312,12 +398,110 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Returns: `undefined`
 - Description: Close an open file handle.
 
+---
+
+### HTTP macros
+
+<a id="http-handle"></a>
+### `#_http_handle`
+- Signature: `#_http_handle(pattern, handler)`
+- Arguments: `string pattern, raw [http.Handler] handler`
+- Returns: `undefined`
+- Description: Register a raw `http.Handler` for `pattern` on the default server mux.
+- Example:
+```
+#_http_handle("/static", myHandlerRaw)
+```
+
+<a id="new-http-serve-mux"></a>
+### `#_new_http_serve_mux`
+- Signature: `#_new_http_serve_mux()`
+- Arguments: none
+- Returns: `raw [*http.ServeMux]`
+- Description: Create and return a new `ServeMux` instance (raw pointer wrapped by the runtime).
+- Example:
+```
+let mux = #_new_http_serve_mux()
+#_serve_mux_handle_func(mux, "/ok", (w, req) => { w.write(#_new_byte_array("OK")) })
+```
+
+<a id="http-handle-func"></a>
+### `#_http_handle_func`
+- Signature: `#_http_handle_func(pattern, fn)`
+- Arguments: `string pattern, function fn(writer, request)`
+- Returns: `undefined`
+- Description: Register a runtime function as an `http.HandlerFunc` on the default server mux. The handler receives two arguments: a `writer` object (has `write` helper) and a `request` object (with `method`, `url`).
+- Example:
+```
+#_http_handle_func("/hello", (w, req) => {
+	w.write(#_new_byte_array("Hello, world\n"))
+})
+```
+
+<a id="serve-mux-handle-func"></a>
+### `#_serve_mux_handle_func`
+- Signature: `#_serve_mux_handle_func(mux, pattern, fn)`
+- Arguments: `raw [*http.ServeMux] mux, string pattern, function fn(writer, request)`
+- Returns: `undefined`
+- Description: Register a runtime function handler on the provided `ServeMux` instance.
+- Example:
+```
+let mux = #_new_http_serve_mux()
+#_serve_mux_handle_func(mux, "/greet", (w, req) => { w.write(#_new_byte_array("Hi")) })
+```
+
+<a id="serve-mux-handle"></a>
+### `#_serve_mux_handle`
+- Signature: `#_serve_mux_handle(mux, pattern, handler)`
+- Arguments: `raw [*http.ServeMux] mux, string pattern, raw [http.Handler] handler`
+- Returns: `undefined`
+- Description: Register a raw `http.Handler` on a `ServeMux` instance.
+- Example:
+```
+#_serve_mux_handle(mux, "/static", myHandlerRaw)
+```
+
+<a id="http-listen"></a>
+### `#_http_listen`
+- Signature: `#_http_listen(address)`
+- Arguments: `string address` (e.g. `"127.0.0.1:8080"`)
+- Returns: `raw [net.Listener]`
+- Description: Bind to the given TCP address and return a listener. Throws an `HttpError` on bind failure.
+- Example:
+```
+let ln = #_http_listen("127.0.0.1:8080")
+```
+
+<a id="http-serve"></a>
+### `#_http_serve`
+- Signature: `#_http_serve(listener, handler)`
+- Arguments: `raw [net.Listener] listener, raw [http.Handler] | raw [*http.ServeMux] | undefined handler`
+- Returns: `undefined` (this call blocks while serving)
+- Description: Start serving HTTP requests on `listener` using `handler`. If `handler` is `undefined`, the default `http.DefaultServeMux` is used.
+- Example (serve a mux):
+```
+#_http_serve(ln, mux)
+```
+
+<a id="is-valid-response-writer"></a>
+### `#_is_valid_response_writer`
+- Signature: `#_is_valid_response_writer(value)`
+- Arguments: `any`
+- Returns: `boolean`
+- Description: Return `true` when `value` is a runtime-wrapped `http.ResponseWriter`.
+- Example:
+```
+#_is_valid_response_writer(someVal) // -> true|false
+```
+
+---
+
 <a id="length"></a>
 ### `#_length`
 - Signature: `#_length(value)`
 - Arguments: `any`
 - Returns: `number`
-- Description: Return a sensible length for supported runtime values (numbers, strings, arrays, objects, byte arrays); returns `-1` for unsupported types.
+- Description: Return a sensible length for supported runtime values (numbers, strings, arrays, objects, byte arrays); returns `0` for unsupported types.
 
 <a id="new-error"></a>
 ### `#_new_error`
@@ -331,7 +515,7 @@ These are the macros built in-to to the ArachnoScript runtime.
 - Signature: `#_define_property(object, key, descriptor)`
 - Arguments: `object, key, descriptor (object)`
 - Returns: `undefined`
-- Description: Define a property on `object` using the provided descriptor object. Descriptor fields: `value`, `get`, `set`, `writeable`, `configurable`, `public`.
+- Description: Define a property on `object` using the provided descriptor object. Descriptor fields: `value`, `get`, `set`, `writable`, `configurable`, `public`.
 
 <a id="meta-path"></a>
 ### `#_meta_path`
@@ -370,6 +554,101 @@ These are the macros built in-to to the ArachnoScript runtime.
 
 ---
 
-If you want the canonical ordering, descriptions, or examples changed, tell me which macros you'd like examples for and I can add short usage snippets.
+### Math macros
 
+<a id="sqrt"></a>
+### `#_sqrt`
+- Signature: `#_sqrt(number)`
+- Returns: `number`
+- Description: Square root.
+
+<a id="sine"></a>
+### `#_sine`
+- Signature: `#_sine(number)`
+- Returns: `number`
+- Description: Sine.
+
+<a id="cosine"></a>
+### `#_cosine`
+- Signature: `#_cosine(number)`
+- Returns: `number`
+- Description: Cosine.
+
+<a id="tangent"></a>
+### `#_tangent`
+- Signature: `#_tangent(number)`
+- Returns: `number`
+- Description: Tangent.
+
+<a id="arcsine"></a>
+### `#_arcsine`
+- Signature: `#_arcsine(number)`
+- Returns: `number`
+- Description: Arcsine.
+
+<a id="arccosine"></a>
+### `#_arccosine`
+- Signature: `#_arccosine(number)`
+- Returns: `number`
+- Description: Arccosine.
+
+<a id="arctangent"></a>
+### `#_arctangent`
+- Signature: `#_arctangent(number)`
+- Returns: `number`
+- Description: Arctangent.
+
+<a id="log"></a>
+### `#_log`
+- Signature: `#_log(number)`
+- Returns: `number`
+- Description: Natural logarithm.
+
+<a id="absolute"></a>
+### `#_absolute`
+- Signature: `#_absolute(number)`
+- Returns: `number`
+- Description: Absolute value.
+
+<a id="arctangent2"></a>
+### `#_arctangent2`
+- Signature: `#_arctangent2(y, x)`
+- Returns: `number`
+- Description: Two-argument arctangent (atan2).
+
+<a id="ceil"></a>
+### `#_ceil`
+- Signature: `#_ceil(number)`
+- Returns: `number`
+- Description: Ceiling.
+
+<a id="floor"></a>
+### `#_floor`
+- Signature: `#_floor(number)`
+- Returns: `number`
+- Description: Floor.
+
+<a id="round"></a>
+### `#_round`
+- Signature: `#_round(number)`
+- Returns: `number`
+- Description: Round to nearest integer.
+
+<a id="random"></a>
+### `#_random`
+- Signature: `#_random()`
+- Returns: `number`
+- Description: Return a pseudorandom float in [0,1).
+
+<a id="max"></a>
+### `#_max`
+- Signature: `#_max(a, ...b)`
+- Returns: `number`
+- Description: Return the maximum of the provided numeric arguments.
+
+<a id="min"></a>
+### `#_min`
+- Signature: `#_min(a, ...b)`
+- Returns: `number`
+- Description: Return the minimum of the provided numeric arguments.
 
