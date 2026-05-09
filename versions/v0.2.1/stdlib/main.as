@@ -18,7 +18,7 @@ import "runtime.as"
 
 immortal spawn argsLength = #_length(Runtime.args);
 
-if (argsLength > 1) {
+if (argsLength > 0) {
 
   for (spawn i = 0; i < argsLength; i++) {
     spawn arg = Runtime.args[i];
