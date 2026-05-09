@@ -29,6 +29,10 @@ function prompt(message, defaultValue) {
   if (message) {
     print(message)
   }
+  return input()
+}
+
+function input() {
   $ set buffer to 1024 character size
   spawn byte_array = #_new_byte_array(1024);
   $ read from stdin and write to 'byte_array'
