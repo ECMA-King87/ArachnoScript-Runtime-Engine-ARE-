@@ -13,3 +13,5 @@ See the complete list of runtime macros and their documentation in:
 
 ## ArachnoScipt Docs
 - The v0.2 release website is at <https://ecma-king87.github.io/arachnoscript.docs.aspire.github.com/>
+- The Buzzly platform: <https://buzzly.harislab.tech>; Stay updated about ArachnoScript.
+- Discord: <https://discord.gg/nQm&v2eXWt>
