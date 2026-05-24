@@ -9,6 +9,8 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - Each macro entry includes: Signature, Arguments, Returns and a concise Description.
 - FFI-related macros are experimental; review their descriptions before use.
 
+---
+
 ## Table of contents
 
 - [#_value_is_nan](#value-is-nan)
@@ -87,6 +89,7 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - [#_random](#random)
 - [#_max](#max)
 - [#_min](#min)
+- [#_runtime_version](#runtime_version)
 
 ---
 
@@ -638,7 +641,7 @@ let ln = #_http_listen("127.0.0.1:8080")
 ### `#_random`
 - Signature: `#_random()`
 - Returns: `number`
-- Description: Return a pseudorandom float in [0,1).
+- Description: Return a pseudorandom float between 0 and 1.
 
 <a id="max"></a>
 ### `#_max`
@@ -652,3 +655,8 @@ let ln = #_http_listen("127.0.0.1:8080")
 - Returns: `number`
 - Description: Return the minimum of the provided numeric arguments.
 
+<a id="runtime_version"></a>
+### `#_runtime_version`
+- Signature: `#_runtime_version()`
+- Returns: `string`
+- Description: Return the version number of the running ArachnoScript Runtime.
