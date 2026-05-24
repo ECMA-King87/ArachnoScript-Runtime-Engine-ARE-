@@ -1,4 +1,14 @@
 
+# ArachnoScript v0.2.11 Change log
+
+## Runtime
+- fixed for loop bug
+- fixed file association in installer for running scripts
+- marked `#_ffi_call_function` macro as unstable.
+- fixed multithread bug with micro tasks.
+- updated 'runtime' standard library module.
+
+
 # ArachnoScript v0.2.1 Change log
 
 ## Lexer
