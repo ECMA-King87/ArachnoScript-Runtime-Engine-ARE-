@@ -1,21 +1,58 @@
 
-# ArachnoScript v0.2.11 Change log
+# ArachnoScript Runtime Change log
 
-## Runtime
+## ArachnoScript v0.2.12 Change log
+
+### Parser
+- updated for loop parsing.
+- updated object literal parsing.
+- updated arrow function syntax.
+- proposed that the 'default' keyword in property delclarations will be removed in later versions.
+
+### Runtime
+- updated 'arrays' standard library module.
+- updated `#_inspect` macro.
+- updated `#_worker` macro.
+- updated `#_symbol_for` macro.
+- fixed 'io' standard library module bug.
+- fixed array data type debug printing.
+- fixed bug with resolving 'this' object in function calls.
+- updated 'arrays', and 'strings' standard library modules.
+- fixed runtime error bug.
+- added `#_set_context` macro.
+- added `#_sleep` macro.
+- added `#_time` macro.
+- added `#_unix_milli` macro.
+- added `#_get_year` macro.
+- added `#_get_month` macro.
+- added `#_get_date` macro.
+- added `#_get_weekday` macro.
+- added `#_get_hour` macro.
+- added `#_get_minute` macro.
+- added `#_get_second` macro.
+- added `#_get_millisec` macro.
+- added `#_symbol_keyfor` macro.
+- added `#_assert` macro.
+- added 'encoding', and 'date' standard library modules.
+- handled division by zero operation.
+
+## ArachnoScript v0.2.11 Change log
+
+### Runtime
 - fixed for loop bug
 - fixed file association in installer for running scripts
 - marked `#_ffi_call_function` macro as unstable.
 - fixed multithread bug with micro tasks.
 - updated 'runtime' standard library module.
+- updated for loop syntax
 
+## ArachnoScript v0.2.1 Change log
 
-# ArachnoScript v0.2.1 Change log
-
-## Lexer
+### Lexer
 - optimized lexer.
 - fixed lexer bugs in string lexing.
 
-## Parser
+### Parser
 - updated constructor logic to match runtime behavior.
 - updated object literal parsing.
 - updated if statement parsing.
@@ -23,7 +60,7 @@
 - optimized class property parsing logic
 - updated increment/decrement nodes
 
-## Runtime
+### Runtime
 - enabled variable declaration in if statement condition.
 - fixed bug in `#_new_byte_array` macro.
 - updated `#_serve_mux_handle_func` macro.
@@ -52,16 +89,16 @@
 - updated macro data type error architecture.
 
 
-# ArachnoScript v0.2.0 Change log
+## ArachnoScript v0.2.0 Change log
 
-## Lexer
+### Lexer
 - updated lexer logic (moved from using regular expressions).
 
-## Parser
+### Parser
 - updated parser logic (using precedence helpers).
 - optimized parser (nodes, logic)
 
-## Runtime
+### Runtime
 - improved interpreter logic
 - improved errors (Parse errors and runtime errors).
 - improved array & object destructuring features.

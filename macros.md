@@ -1,6 +1,6 @@
 # Macros Reference
 
-Comprehensive reference for built-in macros in the ArachnoScript runtime (v0.2).
+Comprehensive reference for built-in macros in the ArachnoScript runtime (v0.2.x).
 
 These are the macros built into the ArachnoScript runtime as declared in `src/macros.go`.
 
@@ -29,6 +29,7 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - [#_parse_float](#parse-float)
 - [#_parse_int](#parse-int)
 - [#_symbol_for](#symbol-for)
+- [#_symbol_keyfor](#symbol-keyfor)
 - [#_byte](#byte)
 - [#_new_promise](#new-promise)
 - [#_queue_microtask](#queue-microtask)
@@ -46,6 +47,7 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - [#_write_byte_array](#write-byte-array)
 - [#_push_byte](#push-byte)
 - [#_byte_at](#byte-at)
+- [#_set_byte_at](#set-byte-at)
 - [#_is_byte_array](#is-byte-array)
 - [#_is_byte](#is-byte)
 - [#_slice_array](#slice-array)
@@ -90,6 +92,19 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - [#_max](#max)
 - [#_min](#min)
 - [#_runtime_version](#runtime_version)
+- [#_sleep](#sleep)
+- [#_time](#time)
+- [#_get_millisec](#get-millisec)
+- [#_get_second](#get-second)
+- [#_get_minute](#get-minute)
+- [#_get_hour](#get-hour)
+- [#_get_date](#get-date)
+- [#_get_weekday](#get-weekday)
+- [#_get_month](#get-month)
+- [#_get_year](#get-year)
+- [#_get_time_loc](#get-time-loc)
+- [#_unix_milli](#unix-milli)
+- [#_assert](#assert)
 
 ---
 
@@ -204,6 +219,13 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - Arguments: `string`
 - Returns: `symbol`
 - Description: Return an interned symbol for the given name (uses the runtime symbol table).
+
+<a id="symbol-keyfor"></a>
+### `#_symbol_keyfor`
+- Signature: `#_symbol_keyfor(symbol)`
+- Arguments: `symbol`
+- Returns: `string | undefined`
+- Description: Return the string key for a registered symbol, or `undefined` if the symbol is not found in the symbol table.
 
 <a id="byte"></a>
 ### `#_byte`
@@ -323,6 +345,13 @@ These are the macros built into the ArachnoScript runtime as declared in `src/ma
 - Arguments: `raw [byte array], number`
 - Returns: `raw [byte]`
 - Description: Return the byte at `index`. Negative indices count from the end; errors on out-of-range access.
+
+<a id="set-byte-at"></a>
+### `#_set_byte_at`
+- Signature: `#_set_byte_at(bytes, index, byte)`
+- Arguments: `raw [byte array], number, raw [byte]`
+- Returns: `raw [byte array]`
+- Description: Set the byte at `index` to the provided byte value. Negative indices count from the end; errors on out-of-range access. Returns the modified byte array.
 
 <a id="is-byte-array"></a>
 ### `#_is_byte_array`
@@ -555,6 +584,12 @@ let ln = #_http_listen("127.0.0.1:8080")
 - Returns: `undefined`
 - Description: Replace the current execution scope with the provided scope object.
 
+<a id="get-context"></a>
+### `#_get_context`
+- Signature: `#_get_context()`
+- Returns: `object [scope object]`
+- Description: Returns the current execution scope as a scope object.
+
 ---
 
 ### Math macros
@@ -660,3 +695,97 @@ let ln = #_http_listen("127.0.0.1:8080")
 - Signature: `#_runtime_version()`
 - Returns: `string`
 - Description: Return the version number of the running ArachnoScript Runtime.
+
+<a id="sleep"></a>
+### `#_sleep`
+- Signature: `#_sleep(milliseconds)`
+- Arguments: `number`
+- Returns: `undefined`
+- Description: Pause execution for the specified number of milliseconds.
+
+<a id="time"></a>
+### `#_time`
+- Signature: `#_time([year, month, day, hours, minutes, seconds, milliseconds])` or `#_time(dateString)`
+- Arguments: optional - `number, number, number, number, number, number, number` or `string` (RFC3339 format)
+- Returns: `raw [time object]`
+- Description: Return the current time as a raw time object. If arguments are provided, construct a time object from the given date/time components (month is 1-indexed). If a date string is provided, parse it in RFC3339 format.
+
+<a id="get-millisec"></a>
+### `#_get_millisec`
+- Signature: `#_get_millisec(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the millisecond component (0-999) from a time object.
+
+<a id="get-second"></a>
+### `#_get_second`
+- Signature: `#_get_second(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the second component (0-59) from a time object.
+
+<a id="get-minute"></a>
+### `#_get_minute`
+- Signature: `#_get_minute(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the minute component (0-59) from a time object.
+
+<a id="get-hour"></a>
+### `#_get_hour`
+- Signature: `#_get_hour(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the hour component (0-23) from a time object.
+
+<a id="get-date"></a>
+### `#_get_date`
+- Signature: `#_get_date(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the day of month (1-31) from a time object.
+
+<a id="get-weekday"></a>
+### `#_get_weekday`
+- Signature: `#_get_weekday(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `string`
+- Description: Get the day of week name (e.g., "Monday", "Tuesday") from a time object.
+
+<a id="get-month"></a>
+### `#_get_month`
+- Signature: `#_get_month(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the month (1-12) from a time object.
+
+<a id="get-year"></a>
+### `#_get_year`
+- Signature: `#_get_year(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the year from a time object.
+
+<a id="get-time-loc"></a>
+### `#_get_time_loc`
+- Signature: `#_get_time_loc(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `string`
+- Description: Get the timezone location name from a time object.
+
+<a id="unix-milli"></a>
+### `#_unix_milli`
+- Signature: `#_unix_milli(timeObject)`
+- Arguments: `raw [time object]`
+- Returns: `number`
+- Description: Get the Unix time in milliseconds since epoch from a time object.
+
+<a id="assert"></a>
+### `#_assert`
+- Signature: `#_assert(condition)`
+- Arguments: `boolean`
+- Returns: `undefined | throws`
+- Description: Assert that the given condition is true. If the condition is false, throws an `Assertion` error with the current stack trace.
+
+
+
