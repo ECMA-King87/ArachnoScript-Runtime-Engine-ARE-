@@ -15,3 +15,15 @@ See the complete list of runtime macros and their documentation in:
 - The v0.2 release website is at <https://ecma-king87.github.io/arachnoscript.docs.aspire.github.com/>
 - The Buzzly platform: <https://buzzly.harislab.tech>; Stay updated about ArachnoScript.
 - Discord: <https://discord.gg/nQm&v2eXWt>
+
+## Installation
+
+### On Windows
+Go to releases and download the latest installer executable. Run the executable, follow the instructions and you're good to go.
+
+### On MacOS / Linux
+
+Copy the following command into your terminal and run it.
+```
+curl -fsSL https://raw.githubusercontent.com/ECMA-King87/ArachnoScript-Runtime-Engine-ARE-/main/scripts/install.sh | bash
+```
