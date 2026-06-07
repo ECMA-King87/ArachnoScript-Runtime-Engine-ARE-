@@ -77,7 +77,7 @@ setup_binary() {
     echo -e "${YELLOW}Local binary not found, attempting to download from GitHub...${NC}"
     
     local download_dir=$(mktemp -d)
-    local release_url="$GITHUB_RELEASES_URL/v$VERSION/are-$PLATFORM-$ARCH"
+    local release_url="$GITHUB_RELEASES_URL/v$VERSION/are-$PLATFORM-$VERSION-$ARCH"
     
     echo -n "  Downloading are-$PLATFORM-$ARCH... "
     if curl -sfL -o "$download_dir/are-binary" "$release_url" 2>/dev/null; then
@@ -153,73 +153,41 @@ EOF
     fi
 }
 
+# Download all files from a GitHub directory
+download_github_directory() {
+    local source_dir=$1
+    local dest_dir=$2
+    local api_url="https://api.github.com/repos/$GITHUB_REPO/contents/versions/v$VERSION/$source_dir"
+    
+    echo -e "\n${YELLOW}$source_dir:${NC}"
+    mkdir -p "$dest_dir"
+    
+    # Fetch file listing from GitHub API and download each file
+    curl -s "$api_url" | grep -o '"download_url":"[^"]*"' | sed 's/"download_url":"//;s/"$//' | while read url; do
+        if [ -n "$url" ]; then
+            local filename=$(basename "$url")
+            echo -n "  $filename... "
+            if curl -sf -o "$dest_dir/$filename" "$url" 2>/dev/null; then
+                chmod 644 "$dest_dir/$filename" 2>/dev/null || true
+                echo -e "${GREEN}✓${NC}"
+            else
+                echo -e "${YELLOW}✗${NC}"
+            fi
+        fi
+    done
+}
+
 # Download resources from GitHub
 download_resources() {
     echo -e "\n${YELLOW}Downloading resources from GitHub v$VERSION...${NC}"
     
-    local temp_dir=$(mktemp -d)
-    trap "rm -rf $temp_dir" EXIT
-    
-    download_file() {
-        local filename=$1
-        local source_path=$2
-        local dest_dir=$3
-        
-        local url="$GITHUB_BASE_URL/v$VERSION/$source_path/$filename"
-        echo -n "  Downloading $filename... "
-        
-        if curl -sf -o "$temp_dir/$filename" "$url" 2>/dev/null; then
-            mkdir -p "$dest_dir"
-            mv "$temp_dir/$filename" "$dest_dir/$filename"
-            chmod 644 "$dest_dir/$filename"
-            echo -e "${GREEN}✓${NC}"
-            return 0
-        else
-            echo -e "${YELLOW}⚠${NC}"
-            return 1
-        fi
-    }
-    
-    # Download stdlib
-    echo -e "\n${YELLOW}Stdlib modules:${NC}"
-    local stdlib_modules=(
-        "arrays" "date" "encoding" "fs" "http" "io"
-        "math" "numbers" "objects" "promise" "regexp" "runtime"
-        "strings" "symbols"
-    )
-    
-    local stdlib_count=0
-    for module in "${stdlib_modules[@]}"; do
-        if download_file "$module.as" "stdlib" "$STDLIB_DIR"; then
-            ((stdlib_count++))
-        fi
-    done
-    
-    # Download examples
-    echo -e "\n${YELLOW}Examples:${NC}"
-    local examples=("http.as" "num-sorter.as" "ffi.as")
-    local examples_count=0
-    for example in "${examples[@]}"; do
-        if download_file "$example" "examples" "$EXAMPLES_DIR"; then
-            ((examples_count++))
-        fi
-    done
-    
-    # Download source files
-    echo -e "\n${YELLOW}Source files:${NC}"
-    local source_files=("main.as" "smoke_c.as")
-    local src_count=0
-    for srcfile in "${source_files[@]}"; do
-        if download_file "$srcfile" "src/as" "$SRC_DIR"; then
-            ((src_count++))
-        fi
-    done
+    # Download all files from stdlib, examples, and src directories
+    download_github_directory "stdlib" "$STDLIB_DIR"
+    download_github_directory "examples" "$EXAMPLES_DIR"
+    download_github_directory "src/as" "$SRC_DIR"
     
     echo ""
-    echo -e "${GREEN}✓ Downloaded:${NC}"
-    echo "  - $stdlib_count stdlib modules"
-    [ $examples_count -gt 0 ] && echo "  - $examples_count example files"
-    [ $src_count -gt 0 ] && echo "  - $src_count source files"
+    echo -e "${GREEN}✓ Resources downloaded${NC}"
 }
 
 # Main installation
